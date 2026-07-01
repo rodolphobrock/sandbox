@@ -1,0 +1,27 @@
+{
+  "owner": "rodolphobrock",
+  "repo": "sandbox",
+  "project_id": "PVT_kwHOEFcAHs4BcOhi",
+  "status_field_id": "PVTSSF_lAHOEFcAHs4BcOhizhW44y8",
+  "statuses": {
+    "to_plan": "fb527505",
+    "planning": "1161c21a",
+    "to_replan": "339fe8d2",
+    "to_review": "e8a05349",
+    "reviewing": "cf1c14a6",
+    "to_execute": "ba0dd7e5",
+    "executing": "385fa538",
+    "done": "c7122e80"
+  },
+  "required_fields": ["Milestone"],
+  "max_attempts": 2,
+  "assignee_on_escalation": "rodolphobrock",
+  "canonical_docs": {
+    "dir": "docs",
+    "pattern": "_*.md"
+  },
+  "infra": {
+    "ssh_hosts": [],
+    "notes": "Piloto sem infra real — pre-flight e execução operam no próprio repositório."
+  }
+}
