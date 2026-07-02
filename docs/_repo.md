@@ -9,6 +9,8 @@ Espaço de experimentação e prototipagem rápida. Não destinado a uso em prod
 ```
 sandbox/
 ├── .ghia/          # Configuração do ciclo GHIA (config.json)
+├── .github/
+│   └── workflows/  # GitHub Actions (markdown-lint.yml)
 ├── docs/           # Documentação canônica (arquivos _*.md)
 ├── LICENSE
 └── README.md
