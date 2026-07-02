@@ -8,10 +8,11 @@ Espaço de experimentação e prototipagem rápida. Não destinado a uso em prod
 
 ```
 sandbox/
-├── .ghia/          # Configuração do ciclo GHIA (config.json)
+├── .ghia/              # Configuração do ciclo GHIA (config.json)
 ├── .github/
-│   └── workflows/  # GitHub Actions (markdown-lint.yml)
-├── docs/           # Documentação canônica (arquivos _*.md)
+│   └── workflows/      # GitHub Actions (markdown-lint.yml)
+├── docs/               # Documentação canônica (arquivos _*.md)
+├── .markdownlint.json  # Config markdownlint (desabilita MD013, MD032, MD040)
 ├── LICENSE
 └── README.md
 ```
