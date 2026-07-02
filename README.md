@@ -14,6 +14,14 @@ It is intended for:
 - temporary technical exploration
 - validating ideas before investing in proper implementation
 
+## Documentação canônica
+
+Fonte de verdade do repositório — mantida pelo ciclo GHIA:
+
+| Arquivo | Descrição |
+|---------|-----------|
+| [docs/_repo.md](docs/_repo.md) | Propósito, estrutura de diretórios e convenções de commit |
+
 ## Important Notice
 
 This is **not** a production-ready codebase.
