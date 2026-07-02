@@ -14,7 +14,7 @@
     "done": "c7122e80"
   },
   "required_fields": ["Milestone"],
-  "max_attempts": 2,
+  "max_attempts": 4,
   "assignee_on_escalation": "rodolphobrock",
   "canonical_docs": {
     "dir": "docs",
