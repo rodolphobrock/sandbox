@@ -1,0 +1,13 @@
+{
+  "control": [
+    { "VTOY_DEFAULT_MENU_MODE": "0" },
+    { "VTOY_MENU_TIMEOUT": "30" },
+    { "VTOY_SECONDARY_BOOT_MENU": "1" }
+  ],
+  "auto_install": [
+    {
+      "image": "/ISO/Win11_24H2_BrazilianPortuguese_x64.iso",
+      "template": "/ventoy/script/autounattend-win11-pro-ptbr.xml"
+    }
+  ]
+}
