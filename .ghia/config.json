@@ -3,6 +3,8 @@
   "repo": "sandbox",
   "project_id": "PVT_kwHOEFcAHs4BcOhi",
   "status_field_id": "PVTSSF_lAHOEFcAHs4BcOhizhW44y8",
+  "analyst_attempts_field_id": "PVTF_lAHOEFcAHs4BcOhizhYIFRA",
+  "reviewer_attempts_field_id": "PVTF_lAHOEFcAHs4BcOhizhYIFR4",
   "statuses": {
     "to_plan": "fb527505",
     "planning": "1161c21a",
@@ -11,9 +13,12 @@
     "reviewing": "cf1c14a6",
     "to_execute": "ba0dd7e5",
     "executing": "385fa538",
+    "to_human": "86c1fc32",
     "done": "c7122e80"
   },
-  "required_fields": ["Milestone"],
+  "required_fields": [
+    "Milestone"
+  ],
   "max_attempts": 4,
   "assignee_on_escalation": "rodolphobrock",
   "canonical_docs": {
