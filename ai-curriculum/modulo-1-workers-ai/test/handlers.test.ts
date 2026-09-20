@@ -70,12 +70,13 @@ describe("runEmbed", () => {
 describe("runGeneratePaidExample", () => {
 	it("chama ai.run com o modelo que exige plano pago", async () => {
 		const fakeAi = { run: vi.fn().mockResolvedValue({ response: "nunca deveria chegar aqui no free tier" }) };
-		await runGeneratePaidExample(fakeAi as unknown as Ai, "oi");
+		const result = await runGeneratePaidExample(fakeAi as unknown as Ai, "oi");
 		expect(fakeAi.run).toHaveBeenCalledWith(PAID_ONLY_MODEL, {
 			messages: [
 				{ role: "system", content: "You are a helpful assistant." },
 				{ role: "user", content: "oi" },
 			],
 		});
+		expect(result).toEqual({ response: "nunca deveria chegar aqui no free tier" });
 	});
 });

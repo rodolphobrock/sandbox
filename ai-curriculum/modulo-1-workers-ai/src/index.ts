@@ -8,8 +8,16 @@ async function jsonBody(request: Request): Promise<unknown> {
 	try {
 		return await request.json();
 	} catch {
-		return null;
+		throw new Error("Corpo da requisição não é um JSON válido");
 	}
+}
+
+function errorMessage(err: unknown): string {
+	return err instanceof Error ? err.message : String(err);
+}
+
+function isPaidPlanError(err: unknown): boolean {
+	return err instanceof Error && /Workers Paid plan|\b5035\b/i.test(err.message);
 }
 
 export default {
@@ -21,13 +29,13 @@ export default {
 			try {
 				({ prompt } = parseGenerateRequest(await jsonBody(request)));
 			} catch (err) {
-				return Response.json({ error: (err as Error).message }, { status: 400 });
+				return Response.json({ error: errorMessage(err) }, { status: 400 });
 			}
 			try {
 				const result = await runGenerate(env.AI, prompt);
 				return Response.json(result);
 			} catch (err) {
-				return Response.json({ error: (err as Error).message }, { status: 502 });
+				return Response.json({ error: errorMessage(err) }, { status: 502 });
 			}
 		}
 
@@ -36,13 +44,13 @@ export default {
 			try {
 				({ text } = parseEmbedRequest(await jsonBody(request)));
 			} catch (err) {
-				return Response.json({ error: (err as Error).message }, { status: 400 });
+				return Response.json({ error: errorMessage(err) }, { status: 400 });
 			}
 			try {
 				const result = await runEmbed(env.AI, text);
 				return Response.json(result);
 			} catch (err) {
-				return Response.json({ error: (err as Error).message }, { status: 502 });
+				return Response.json({ error: errorMessage(err) }, { status: 502 });
 			}
 		}
 
@@ -51,13 +59,13 @@ export default {
 			try {
 				({ prompt } = parseGenerateRequest(await jsonBody(request)));
 			} catch (err) {
-				return Response.json({ error: (err as Error).message }, { status: 400 });
+				return Response.json({ error: errorMessage(err) }, { status: 400 });
 			}
 			try {
 				const result = await runGeneratePaidExample(env.AI, prompt);
 				return Response.json(result);
 			} catch (err) {
-				return Response.json({ error: (err as Error).message }, { status: 403 });
+				return Response.json({ error: errorMessage(err) }, { status: isPaidPlanError(err) ? 403 : 502 });
 			}
 		}
 
