@@ -37,14 +37,14 @@
 
 ```json
 {
-	"name": "modulo-1-workers-ai",
-	"private": true,
-	"version": "0.0.0",
-	"scripts": {
-		"dev": "wrangler dev",
-		"deploy": "wrangler deploy",
-		"test": "vitest run"
-	}
+    "name": "modulo-1-workers-ai",
+    "private": true,
+    "version": "0.0.0",
+    "scripts": {
+        "dev": "wrangler dev",
+        "deploy": "wrangler deploy",
+        "test": "vitest run"
+    }
 }
 ```
 
@@ -62,20 +62,20 @@ Expected: `package.json` ganha um bloco `devDependencies` com essas 4 libs e `pa
 
 ```json
 {
-	"compilerOptions": {
-		"target": "ES2021",
-		"lib": ["ES2021"],
-		"module": "ES2022",
-		"moduleResolution": "Bundler",
-		"types": ["@cloudflare/workers-types"],
-		"strict": true,
-		"skipLibCheck": true,
-		"resolveJsonModule": true,
-		"esModuleInterop": true,
-		"isolatedModules": true,
-		"noEmit": true
-	},
-	"include": ["src/**/*.ts", "test/**/*.ts"]
+    "compilerOptions": {
+        "target": "ES2021",
+        "lib": ["ES2021"],
+        "module": "ES2022",
+        "moduleResolution": "Bundler",
+        "types": ["@cloudflare/workers-types"],
+        "strict": true,
+        "skipLibCheck": true,
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
+        "isolatedModules": true,
+        "noEmit": true
+    },
+    "include": ["src/**/*.ts", "test/**/*.ts"]
 }
 ```
 
@@ -83,13 +83,13 @@ Expected: `package.json` ganha um bloco `devDependencies` com essas 4 libs e `pa
 
 ```jsonc
 {
-	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "modulo-1-workers-ai",
-	"main": "src/index.ts",
-	"compatibility_date": "2026-09-20",
-	"ai": {
-		"binding": "AI"
-	}
+    "$schema": "node_modules/wrangler/config-schema.json",
+    "name": "modulo-1-workers-ai",
+    "main": "src/index.ts",
+    "compatibility_date": "2026-09-20",
+    "ai": {
+        "binding": "AI"
+    }
 }
 ```
 
@@ -127,74 +127,74 @@ Criar `test/handlers.test.ts`:
 ```ts
 import { describe, it, expect, vi } from "vitest";
 import {
-	parseGenerateRequest,
-	parseEmbedRequest,
-	runGenerate,
-	runEmbed,
-	runGeneratePaidExample,
-	TEXT_MODEL,
-	EMBEDDING_MODEL,
-	PAID_ONLY_MODEL,
+    parseGenerateRequest,
+    parseEmbedRequest,
+    runGenerate,
+    runEmbed,
+    runGeneratePaidExample,
+    TEXT_MODEL,
+    EMBEDDING_MODEL,
+    PAID_ONLY_MODEL,
 } from "../src/handlers";
 
 describe("parseGenerateRequest", () => {
-	it("aceita um body valido", () => {
-		expect(parseGenerateRequest({ prompt: "oi" })).toEqual({ prompt: "oi" });
-	});
+    it("aceita um body valido", () => {
+        expect(parseGenerateRequest({ prompt: "oi" })).toEqual({ prompt: "oi" });
+    });
 
-	it("rejeita body sem prompt", () => {
-		expect(() => parseGenerateRequest({})).toThrow("Campo 'prompt'");
-	});
+    it("rejeita body sem prompt", () => {
+        expect(() => parseGenerateRequest({})).toThrow("Campo 'prompt'");
+    });
 
-	it("rejeita prompt vazio", () => {
-		expect(() => parseGenerateRequest({ prompt: "   " })).toThrow("Campo 'prompt'");
-	});
+    it("rejeita prompt vazio", () => {
+        expect(() => parseGenerateRequest({ prompt: "   " })).toThrow("Campo 'prompt'");
+    });
 });
 
 describe("parseEmbedRequest", () => {
-	it("aceita um body valido", () => {
-		expect(parseEmbedRequest({ text: "oi" })).toEqual({ text: "oi" });
-	});
+    it("aceita um body valido", () => {
+        expect(parseEmbedRequest({ text: "oi" })).toEqual({ text: "oi" });
+    });
 
-	it("rejeita body sem text", () => {
-		expect(() => parseEmbedRequest({})).toThrow("Campo 'text'");
-	});
+    it("rejeita body sem text", () => {
+        expect(() => parseEmbedRequest({})).toThrow("Campo 'text'");
+    });
 });
 
 describe("runGenerate", () => {
-	it("chama ai.run com o modelo de texto e a mensagem do usuario", async () => {
-		const fakeAi = { run: vi.fn().mockResolvedValue({ response: "ola" }) };
-		const result = await runGenerate(fakeAi as unknown as Ai, "diga oi");
-		expect(fakeAi.run).toHaveBeenCalledWith(TEXT_MODEL, {
-			messages: [
-				{ role: "system", content: "You are a helpful assistant." },
-				{ role: "user", content: "diga oi" },
-			],
-		});
-		expect(result).toEqual({ response: "ola" });
-	});
+    it("chama ai.run com o modelo de texto e a mensagem do usuario", async () => {
+        const fakeAi = { run: vi.fn().mockResolvedValue({ response: "ola" }) };
+        const result = await runGenerate(fakeAi as unknown as Ai, "diga oi");
+        expect(fakeAi.run).toHaveBeenCalledWith(TEXT_MODEL, {
+            messages: [
+                { role: "system", content: "You are a helpful assistant." },
+                { role: "user", content: "diga oi" },
+            ],
+        });
+        expect(result).toEqual({ response: "ola" });
+    });
 });
 
 describe("runEmbed", () => {
-	it("chama ai.run com o modelo de embedding e o texto encapsulado em array", async () => {
-		const fakeAi = { run: vi.fn().mockResolvedValue({ data: [[0.1, 0.2]] }) };
-		const result = await runEmbed(fakeAi as unknown as Ai, "algum texto");
-		expect(fakeAi.run).toHaveBeenCalledWith(EMBEDDING_MODEL, { text: ["algum texto"] });
-		expect(result).toEqual({ data: [[0.1, 0.2]] });
-	});
+    it("chama ai.run com o modelo de embedding e o texto encapsulado em array", async () => {
+        const fakeAi = { run: vi.fn().mockResolvedValue({ data: [[0.1, 0.2]] }) };
+        const result = await runEmbed(fakeAi as unknown as Ai, "algum texto");
+        expect(fakeAi.run).toHaveBeenCalledWith(EMBEDDING_MODEL, { text: ["algum texto"] });
+        expect(result).toEqual({ data: [[0.1, 0.2]] });
+    });
 });
 
 describe("runGeneratePaidExample", () => {
-	it("chama ai.run com o modelo que exige plano pago", async () => {
-		const fakeAi = { run: vi.fn().mockResolvedValue({ response: "nunca deveria chegar aqui no free tier" }) };
-		await runGeneratePaidExample(fakeAi as unknown as Ai, "oi");
-		expect(fakeAi.run).toHaveBeenCalledWith(PAID_ONLY_MODEL, {
-			messages: [
-				{ role: "system", content: "You are a helpful assistant." },
-				{ role: "user", content: "oi" },
-			],
-		});
-	});
+    it("chama ai.run com o modelo que exige plano pago", async () => {
+        const fakeAi = { run: vi.fn().mockResolvedValue({ response: "nunca deveria chegar aqui no free tier" }) };
+        await runGeneratePaidExample(fakeAi as unknown as Ai, "oi");
+        expect(fakeAi.run).toHaveBeenCalledWith(PAID_ONLY_MODEL, {
+            messages: [
+                { role: "system", content: "You are a helpful assistant." },
+                { role: "user", content: "oi" },
+            ],
+        });
+    });
 });
 ```
 
@@ -211,52 +211,52 @@ export const EMBEDDING_MODEL = "@cf/baai/bge-base-en-v1.5";
 export const PAID_ONLY_MODEL = "@cf/zai-org/glm-5.2";
 
 export interface GenerateRequest {
-	prompt: string;
+    prompt: string;
 }
 
 export interface EmbedRequest {
-	text: string;
+    text: string;
 }
 
 function isNonEmptyString(value: unknown): value is string {
-	return typeof value === "string" && value.trim().length > 0;
+    return typeof value === "string" && value.trim().length > 0;
 }
 
 export function parseGenerateRequest(body: unknown): GenerateRequest {
-	const prompt = (body as Record<string, unknown> | null)?.prompt;
-	if (!isNonEmptyString(prompt)) {
-		throw new Error("Campo 'prompt' (string não vazia) é obrigatório");
-	}
-	return { prompt };
+    const prompt = (body as Record<string, unknown> | null)?.prompt;
+    if (!isNonEmptyString(prompt)) {
+        throw new Error("Campo 'prompt' (string não vazia) é obrigatório");
+    }
+    return { prompt };
 }
 
 export function parseEmbedRequest(body: unknown): EmbedRequest {
-	const text = (body as Record<string, unknown> | null)?.text;
-	if (!isNonEmptyString(text)) {
-		throw new Error("Campo 'text' (string não vazia) é obrigatório");
-	}
-	return { text };
+    const text = (body as Record<string, unknown> | null)?.text;
+    if (!isNonEmptyString(text)) {
+        throw new Error("Campo 'text' (string não vazia) é obrigatório");
+    }
+    return { text };
 }
 
 function chatMessages(prompt: string) {
-	return {
-		messages: [
-			{ role: "system" as const, content: "You are a helpful assistant." },
-			{ role: "user" as const, content: prompt },
-		],
-	};
+    return {
+        messages: [
+            { role: "system" as const, content: "You are a helpful assistant." },
+            { role: "user" as const, content: prompt },
+        ],
+    };
 }
 
 export async function runGenerate(ai: Ai, prompt: string) {
-	return ai.run(TEXT_MODEL, chatMessages(prompt));
+    return ai.run(TEXT_MODEL, chatMessages(prompt));
 }
 
 export async function runGeneratePaidExample(ai: Ai, prompt: string) {
-	return ai.run(PAID_ONLY_MODEL, chatMessages(prompt));
+    return ai.run(PAID_ONLY_MODEL, chatMessages(prompt));
 }
 
 export async function runEmbed(ai: Ai, text: string) {
-	return ai.run(EMBEDDING_MODEL, { text: [text] });
+    return ai.run(EMBEDDING_MODEL, { text: [text] });
 }
 ```
 
@@ -294,71 +294,71 @@ import { describe, it, expect, vi } from "vitest";
 import worker, { type Env } from "../src/index";
 
 function fakeEnv(run: ReturnType<typeof vi.fn>): Env {
-	return { AI: { run } as unknown as Ai };
+    return { AI: { run } as unknown as Ai };
 }
 
 const ctx = {} as ExecutionContext;
 
 describe("fetch handler", () => {
-	it("retorna 404 para rota desconhecida", async () => {
-		const res = await worker.fetch(new Request("http://example.com/unknown"), fakeEnv(vi.fn()), ctx);
-		expect(res.status).toBe(404);
-	});
+    it("retorna 404 para rota desconhecida", async () => {
+        const res = await worker.fetch(new Request("http://example.com/unknown"), fakeEnv(vi.fn()), ctx);
+        expect(res.status).toBe(404);
+    });
 
-	it("retorna 400 quando falta 'prompt' em /generate", async () => {
-		const res = await worker.fetch(
-			new Request("http://example.com/generate", { method: "POST", body: JSON.stringify({}) }),
-			fakeEnv(vi.fn()),
-			ctx,
-		);
-		expect(res.status).toBe(400);
-	});
+    it("retorna 400 quando falta 'prompt' em /generate", async () => {
+        const res = await worker.fetch(
+            new Request("http://example.com/generate", { method: "POST", body: JSON.stringify({}) }),
+            fakeEnv(vi.fn()),
+            ctx,
+        );
+        expect(res.status).toBe(400);
+    });
 
-	it("chama env.AI.run e retorna 200 em /generate valido", async () => {
-		const run = vi.fn().mockResolvedValue({ response: "ola" });
-		const res = await worker.fetch(
-			new Request("http://example.com/generate", { method: "POST", body: JSON.stringify({ prompt: "oi" }) }),
-			fakeEnv(run),
-			ctx,
-		);
-		expect(res.status).toBe(200);
-		expect(await res.json()).toEqual({ response: "ola" });
-	});
+    it("chama env.AI.run e retorna 200 em /generate valido", async () => {
+        const run = vi.fn().mockResolvedValue({ response: "ola" });
+        const res = await worker.fetch(
+            new Request("http://example.com/generate", { method: "POST", body: JSON.stringify({ prompt: "oi" }) }),
+            fakeEnv(run),
+            ctx,
+        );
+        expect(res.status).toBe(200);
+        expect(await res.json()).toEqual({ response: "ola" });
+    });
 
-	it("retorna 400 quando falta 'text' em /embed", async () => {
-		const res = await worker.fetch(
-			new Request("http://example.com/embed", { method: "POST", body: JSON.stringify({}) }),
-			fakeEnv(vi.fn()),
-			ctx,
-		);
-		expect(res.status).toBe(400);
-	});
+    it("retorna 400 quando falta 'text' em /embed", async () => {
+        const res = await worker.fetch(
+            new Request("http://example.com/embed", { method: "POST", body: JSON.stringify({}) }),
+            fakeEnv(vi.fn()),
+            ctx,
+        );
+        expect(res.status).toBe(400);
+    });
 
-	it("chama env.AI.run e retorna 200 em /embed valido", async () => {
-		const run = vi.fn().mockResolvedValue({ data: [[0.1, 0.2]] });
-		const res = await worker.fetch(
-			new Request("http://example.com/embed", { method: "POST", body: JSON.stringify({ text: "oi" }) }),
-			fakeEnv(run),
-			ctx,
-		);
-		expect(res.status).toBe(200);
-		expect(await res.json()).toEqual({ data: [[0.1, 0.2]] });
-	});
+    it("chama env.AI.run e retorna 200 em /embed valido", async () => {
+        const run = vi.fn().mockResolvedValue({ data: [[0.1, 0.2]] });
+        const res = await worker.fetch(
+            new Request("http://example.com/embed", { method: "POST", body: JSON.stringify({ text: "oi" }) }),
+            fakeEnv(run),
+            ctx,
+        );
+        expect(res.status).toBe(200);
+        expect(await res.json()).toEqual({ data: [[0.1, 0.2]] });
+    });
 
-	it("retorna 403 quando o modelo pago falha em /generate-paid-example", async () => {
-		const run = vi.fn().mockRejectedValue(new Error("Workers AI error 5035: model requires Workers Paid plan"));
-		const res = await worker.fetch(
-			new Request("http://example.com/generate-paid-example", {
-				method: "POST",
-				body: JSON.stringify({ prompt: "oi" }),
-			}),
-			fakeEnv(run),
-			ctx,
-		);
-		expect(res.status).toBe(403);
-		const body = (await res.json()) as { error: string };
-		expect(body.error).toContain("5035");
-	});
+    it("retorna 403 quando o modelo pago falha em /generate-paid-example", async () => {
+        const run = vi.fn().mockRejectedValue(new Error("Workers AI error 5035: model requires Workers Paid plan"));
+        const res = await worker.fetch(
+            new Request("http://example.com/generate-paid-example", {
+                method: "POST",
+                body: JSON.stringify({ prompt: "oi" }),
+            }),
+            fakeEnv(run),
+            ctx,
+        );
+        expect(res.status).toBe(403);
+        const body = (await res.json()) as { error: string };
+        expect(body.error).toContain("5035");
+    });
 });
 ```
 
@@ -373,58 +373,58 @@ Expected: FAIL — `Cannot find module '../src/index'`.
 import { parseGenerateRequest, parseEmbedRequest, runGenerate, runEmbed, runGeneratePaidExample } from "./handlers";
 
 export interface Env {
-	AI: Ai;
+    AI: Ai;
 }
 
 async function jsonBody(request: Request): Promise<unknown> {
-	try {
-		return await request.json();
-	} catch {
-		return null;
-	}
+    try {
+        return await request.json();
+    } catch {
+        return null;
+    }
 }
 
 export default {
-	async fetch(request, env): Promise<Response> {
-		const url = new URL(request.url);
+    async fetch(request, env): Promise<Response> {
+        const url = new URL(request.url);
 
-		if (url.pathname === "/generate" && request.method === "POST") {
-			try {
-				const { prompt } = parseGenerateRequest(await jsonBody(request));
-				const result = await runGenerate(env.AI, prompt);
-				return Response.json(result);
-			} catch (err) {
-				return Response.json({ error: (err as Error).message }, { status: 400 });
-			}
-		}
+        if (url.pathname === "/generate" && request.method === "POST") {
+            try {
+                const { prompt } = parseGenerateRequest(await jsonBody(request));
+                const result = await runGenerate(env.AI, prompt);
+                return Response.json(result);
+            } catch (err) {
+                return Response.json({ error: (err as Error).message }, { status: 400 });
+            }
+        }
 
-		if (url.pathname === "/embed" && request.method === "POST") {
-			try {
-				const { text } = parseEmbedRequest(await jsonBody(request));
-				const result = await runEmbed(env.AI, text);
-				return Response.json(result);
-			} catch (err) {
-				return Response.json({ error: (err as Error).message }, { status: 400 });
-			}
-		}
+        if (url.pathname === "/embed" && request.method === "POST") {
+            try {
+                const { text } = parseEmbedRequest(await jsonBody(request));
+                const result = await runEmbed(env.AI, text);
+                return Response.json(result);
+            } catch (err) {
+                return Response.json({ error: (err as Error).message }, { status: 400 });
+            }
+        }
 
-		if (url.pathname === "/generate-paid-example" && request.method === "POST") {
-			let prompt: string;
-			try {
-				({ prompt } = parseGenerateRequest(await jsonBody(request)));
-			} catch (err) {
-				return Response.json({ error: (err as Error).message }, { status: 400 });
-			}
-			try {
-				const result = await runGeneratePaidExample(env.AI, prompt);
-				return Response.json(result);
-			} catch (err) {
-				return Response.json({ error: (err as Error).message }, { status: 403 });
-			}
-		}
+        if (url.pathname === "/generate-paid-example" && request.method === "POST") {
+            let prompt: string;
+            try {
+                ({ prompt } = parseGenerateRequest(await jsonBody(request)));
+            } catch (err) {
+                return Response.json({ error: (err as Error).message }, { status: 400 });
+            }
+            try {
+                const result = await runGeneratePaidExample(env.AI, prompt);
+                return Response.json(result);
+            } catch (err) {
+                return Response.json({ error: (err as Error).message }, { status: 403 });
+            }
+        }
 
-		return new Response("Not found", { status: 404 });
-	},
+        return new Response("Not found", { status: 404 });
+    },
 } satisfies ExportedHandler<Env>;
 ```
 
@@ -469,14 +469,14 @@ Adicionar a chave `account_id` (usando o valor copiado no Step 2) ao `wrangler.j
 
 ```jsonc
 {
-	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "modulo-1-workers-ai",
-	"main": "src/index.ts",
-	"compatibility_date": "2026-09-20",
-	"account_id": "<account-id-copiado-no-step-2>",
-	"ai": {
-		"binding": "AI"
-	}
+    "$schema": "node_modules/wrangler/config-schema.json",
+    "name": "modulo-1-workers-ai",
+    "main": "src/index.ts",
+    "compatibility_date": "2026-09-20",
+    "account_id": "<account-id-copiado-no-step-2>",
+    "ai": {
+        "binding": "AI"
+    }
 }
 ```
 
