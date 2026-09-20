@@ -17,7 +17,11 @@ function errorMessage(err: unknown): string {
 }
 
 function isPaidPlanError(err: unknown): boolean {
-	return err instanceof Error && /Workers Paid plan|\b5035\b/i.test(err.message);
+	// Cloudflare's documented internal error code for "model requires a paid plan" is 5035
+	// (confirmed against the real Workers AI API response, e.g. "5035: Model ... is not
+	// available on the Workers Free plan ..."). Match on the code, not on the prose, since
+	// the wording is not guaranteed to stay stable.
+	return err instanceof Error && /\b5035\b/.test(err.message);
 }
 
 export default {
