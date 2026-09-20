@@ -1,0 +1,10 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "modulo-1-workers-ai",
+	"main": "src/index.ts",
+	"compatibility_date": "2026-09-20",
+	"account_id": "2463b1402db4d1e75346c6c85a8a0c5a",
+	"ai": {
+		"binding": "AI"
+	}
+}
