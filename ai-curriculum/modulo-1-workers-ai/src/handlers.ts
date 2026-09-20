@@ -10,6 +10,8 @@ export interface EmbedRequest {
 	text: string;
 }
 
+const MAX_INPUT_LENGTH = 2000;
+
 function isNonEmptyString(value: unknown): value is string {
 	return typeof value === "string" && value.trim().length > 0;
 }
@@ -19,6 +21,9 @@ export function parseGenerateRequest(body: unknown): GenerateRequest {
 	if (!isNonEmptyString(prompt)) {
 		throw new Error("Campo 'prompt' (string não vazia) é obrigatório");
 	}
+	if (prompt.length > MAX_INPUT_LENGTH) {
+		throw new Error(`Campo 'prompt' excede o limite de ${MAX_INPUT_LENGTH} caracteres`);
+	}
 	return { prompt };
 }
 
@@ -26,6 +31,9 @@ export function parseEmbedRequest(body: unknown): EmbedRequest {
 	const text = (body as Record<string, unknown> | null)?.text;
 	if (!isNonEmptyString(text)) {
 		throw new Error("Campo 'text' (string não vazia) é obrigatório");
+	}
+	if (text.length > MAX_INPUT_LENGTH) {
+		throw new Error(`Campo 'text' excede o limite de ${MAX_INPUT_LENGTH} caracteres`);
 	}
 	return { text };
 }

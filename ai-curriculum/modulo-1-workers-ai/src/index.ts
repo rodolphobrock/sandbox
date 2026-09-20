@@ -13,26 +13,36 @@ async function jsonBody(request: Request): Promise<unknown> {
 }
 
 export default {
-	async fetch(request, env): Promise<Response> {
+	async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
 		const url = new URL(request.url);
 
 		if (url.pathname === "/generate" && request.method === "POST") {
+			let prompt: string;
 			try {
-				const { prompt } = parseGenerateRequest(await jsonBody(request));
+				({ prompt } = parseGenerateRequest(await jsonBody(request)));
+			} catch (err) {
+				return Response.json({ error: (err as Error).message }, { status: 400 });
+			}
+			try {
 				const result = await runGenerate(env.AI, prompt);
 				return Response.json(result);
 			} catch (err) {
-				return Response.json({ error: (err as Error).message }, { status: 400 });
+				return Response.json({ error: (err as Error).message }, { status: 502 });
 			}
 		}
 
 		if (url.pathname === "/embed" && request.method === "POST") {
+			let text: string;
 			try {
-				const { text } = parseEmbedRequest(await jsonBody(request));
+				({ text } = parseEmbedRequest(await jsonBody(request)));
+			} catch (err) {
+				return Response.json({ error: (err as Error).message }, { status: 400 });
+			}
+			try {
 				const result = await runEmbed(env.AI, text);
 				return Response.json(result);
 			} catch (err) {
-				return Response.json({ error: (err as Error).message }, { status: 400 });
+				return Response.json({ error: (err as Error).message }, { status: 502 });
 			}
 		}
 

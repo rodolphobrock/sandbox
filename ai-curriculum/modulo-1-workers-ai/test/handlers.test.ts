@@ -22,6 +22,11 @@ describe("parseGenerateRequest", () => {
 	it("rejeita prompt vazio", () => {
 		expect(() => parseGenerateRequest({ prompt: "   " })).toThrow("Campo 'prompt'");
 	});
+
+	it("rejeita prompt maior que 2000 caracteres", () => {
+		const longPrompt = "a".repeat(2001);
+		expect(() => parseGenerateRequest({ prompt: longPrompt })).toThrow("2000 caracteres");
+	});
 });
 
 describe("parseEmbedRequest", () => {
@@ -31,6 +36,11 @@ describe("parseEmbedRequest", () => {
 
 	it("rejeita body sem text", () => {
 		expect(() => parseEmbedRequest({})).toThrow("Campo 'text'");
+	});
+
+	it("rejeita text maior que 2000 caracteres", () => {
+		const longText = "a".repeat(2001);
+		expect(() => parseEmbedRequest({ text: longText })).toThrow("2000 caracteres");
 	});
 });
 
